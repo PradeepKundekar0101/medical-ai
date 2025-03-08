@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import { useAuth } from "../context/AuthContext";
+
 import {
   FaFilePdf,
   FaUpload,
@@ -9,6 +9,7 @@ import {
   FaExclamationCircle,
   FaPlus,
 } from "react-icons/fa";
+import { config } from "../config";
 
 interface Document {
   _id: string;
@@ -28,7 +29,6 @@ const Documents = () => {
   const [documentName, setDocumentName] = useState("");
 
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const { user } = useAuth();
 
   useEffect(() => {
     fetchDocuments();
@@ -37,7 +37,7 @@ const Documents = () => {
   const fetchDocuments = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("http://localhost:5001/api/documents");
+      const response = await axios.get(`${config.backendUrl}/api/documents`);
       setDocuments(response.data);
       setError(null);
     } catch (err: any) {
@@ -78,7 +78,7 @@ const Documents = () => {
       setError(null);
       setSuccess(null);
 
-      await axios.post("http://localhost:5001/api/documents", formData, {
+      await axios.post(`${config.backendUrl}/api/documents`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

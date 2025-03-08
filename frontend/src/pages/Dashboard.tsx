@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useAuth } from "../context/AuthContext";
+
 import {
   FaPlus,
   FaComments,
   FaClock,
   FaExclamationCircle,
 } from "react-icons/fa";
+import { config } from "../config";
 
 interface Chat {
   _id: string;
@@ -23,14 +24,13 @@ const Dashboard = () => {
   const [error, setError] = useState<string | null>(null);
   const [creating, setCreating] = useState(false);
 
-  const { user } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchChats = async () => {
       try {
         setLoading(true);
-        const response = await axios.get("http://localhost:5001/api/chats");
+        const response = await axios.get(`${config.backendUrl}/api/chats`);
         setChats(response.data);
         setError(null);
       } catch (err: any) {
@@ -47,7 +47,7 @@ const Dashboard = () => {
   const createNewChat = async () => {
     try {
       setCreating(true);
-      const response = await axios.post("http://localhost:5001/api/chats", {
+      const response = await axios.post(`${config.backendUrl}/api/chats`, {
         title: `Conversation ${new Date().toLocaleDateString()}`,
       });
 

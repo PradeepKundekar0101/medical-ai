@@ -6,6 +6,7 @@ import {
   ReactNode,
 } from "react";
 import axios from "axios";
+import { config } from "../config";
 
 interface User {
   _id: string;
@@ -85,7 +86,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       setError(null);
 
       const response = await axios.post(
-        "http://localhost:5001/api/users/login",
+        `${config.backendUrl}/api/users/login`,
         {
           email,
           password,
@@ -109,7 +110,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       setError(null);
 
       const response = await axios.post(
-        "http://localhost:5001/api/users/register",
+        `${config.backendUrl}/api/users/register`,
         userData
       );
 
@@ -137,7 +138,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       setError(null);
 
       const response = await axios.put(
-        "http://localhost:5001/api/users/profile",
+        `${config.backendUrl}/api/users/profile`,
         userData
       );
 
